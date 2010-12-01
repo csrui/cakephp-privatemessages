@@ -1,0 +1,52 @@
+/* @override http://localhost/my/planamatch/msgs/css/msgs.css */
+
+table.message-table {
+	width: 100%;
+	font-size: 12px;
+}
+
+table.message-table thead th {
+	background-color: #EEE;
+	padding: 10px;
+	text-align: left;
+}
+
+table.message-table tr td {
+	border-bottom: 1px solid #EEE;
+	padding: 6px;
+}
+
+table.message-table .title {
+	display: block;
+	font-weight: bold;
+	margin-bottom: 4px;
+}
+
+table.message-table .body {
+	color: #CCC;
+	font-size: 11px;
+}
+
+
+table.message-table tbody tr.read td {
+	color: #999;
+	font-size: smaller;
+}
+
+table.message-table tbody tr.read td a {
+	text-decoration: none;
+	color: #999;
+}
+
+p.body {
+	margin-top: 20px;
+	padding: 20px 0px;
+	border-top: 1px solid #EEE;
+	border-bottom: 1px solid #EEE;
+	font-size: 12px;
+}
+
+
+.timestamp {
+	font-size: 11px;
+}
