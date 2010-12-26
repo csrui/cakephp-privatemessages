@@ -1,9 +1,8 @@
 <?php
 
-class MsgsRecipient extends MsgsAppModel
-{
+class MsgsRecipient extends MsgsAppModel {
 	
-	var $useTable = 'users';
+	var $useTable = 'uac_profiles';
 	
 }
 

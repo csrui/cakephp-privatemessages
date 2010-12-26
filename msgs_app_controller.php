@@ -2,8 +2,6 @@
 
 class MsgsAppController extends AppController {
 		
-	var $components = array('Auth', 'Session');
-	
 	function beforeFilter() {
 		
 		parent::beforeFilter();

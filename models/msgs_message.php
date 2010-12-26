@@ -7,7 +7,7 @@ class MsgsMessage extends MsgsAppModel {
 	var $actsAs = array('Containable');
 	
 	var $belongsTo = array(
-		'UaUser' => array('className' => 'Ua.UaUser', 'foreignKey' => 'from_id'),
+		'UacProfile' => array('className' => 'Uac.UacProfile', 'foreignKey' => 'from_id'),
 		'MsgsRecipient' => array('className' => 'Msgs.MsgsRecipient', 'foreignKey' => 'to_id'),
 	);
 	
