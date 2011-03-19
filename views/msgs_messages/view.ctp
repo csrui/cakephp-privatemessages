@@ -13,7 +13,7 @@
 
 <div>
 	<h3><?php echo $message['MsgsMessage']['title'] ?></h3>
-	<?php __('From') ?>: <?php echo $this->element('player', array('user' => $message['UaUser'])) ?>
+	<?php __('From') ?>: <?php echo $this->element('avatar', array('user' => $message['UacProfile'])) ?>
 	<span class="clear"></span>
 	<p><?php __('Sent')?>: <span class="timestamp"><?php echo $message['MsgsMessage']['created'] ?></span></p>
 </div>

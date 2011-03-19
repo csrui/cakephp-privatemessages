@@ -1,5 +1,10 @@
 <?php
-
+/**
+ * undocumented class
+ *
+ * @package Messages
+ * @author Rui Cruz
+ */
 class MsgsMessage extends MsgsAppModel {
 	
 	var $useTable = 'messages';
@@ -19,7 +24,8 @@ class MsgsMessage extends MsgsAppModel {
         	'rule' => 'notEmpty',
         	'allowEmpty' => false
         ),       
-        'to_id' => array('rule' => 'numeric')
+        'to_id' => array('rule' => 'numeric'),
+		'from_id' => array('rule' => 'numeric')
     );
 
     /*

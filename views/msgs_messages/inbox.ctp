@@ -32,11 +32,11 @@ foreach($messages as $msg) :
 ?>
 <tr class="<?php echo implode(' ', $classes) ?>">
 	<td>
-		<?php echo $this->element('player', array('user' => $msg['UaUser'], 'avatar_size' => 'tiny')) ?>
+		<?php echo $this->element('avatar', array('user' => $msg['UacProfile'], 'avatar_size' => 'tiny')) ?>
 	</td>
 	<td>
 		<span class="title"><?php echo $this->Html->link($msg['MsgsMessage']['title'], array('action' => 'view', $msg['MsgsMessage']['id'])) ?></span>
-		<span class="body"><?php echo $this->Text->truncate($this->Bbcode->parse($msg['MsgsMessage']['body']))?></span>
+		<span class="body"><?php echo $this->Text->truncate($msg['MsgsMessage']['body']) ?></span>
 	</td>
 	<td align="right">
 		<span class="timestamp"><?php echo $this->Time->niceShort($msg['MsgsMessage']['created']) ?></span>

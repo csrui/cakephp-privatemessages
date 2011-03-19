@@ -21,7 +21,7 @@
 		<?php foreach($messages as $msg) : ?>
 			<tr>
 				<td>
-					<?php echo $msg['MsgsRecipient']['username'] ?>
+					<?php echo $this->element('avatar', array('user' => $msg['MsgsRecipient'], 'avatar_size' => 'tiny')) ?>
 				</td>
 				<td><?php echo $this->Html->link($msg['MsgsMessage']['title'], array('action' => 'view', $msg['MsgsMessage']['id'])) ?></td>
 				<td align="right">
