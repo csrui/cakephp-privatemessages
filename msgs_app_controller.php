@@ -2,6 +2,7 @@
 
 class MsgsAppController extends AppController {
 		
+	
 	function beforeFilter() {
 		
 		parent::beforeFilter();

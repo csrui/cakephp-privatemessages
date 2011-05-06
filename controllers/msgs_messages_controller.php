@@ -24,36 +24,30 @@ class MsgsMessagesController extends MsgsAppController {
 	 * @param string $screen_name
 	 * @return void
 	 */
-	function send($screen_name = null) {
+	function send($id = null) {
 
-		if (!is_null($screen_name)) {
+		if (is_null($id)) {
 			
-			$this->data['MsgsMessage']['to'] = $screen_name;
-
-		} elseif (!empty($this->data)) {
-
-			$cond = array(
-				'MsgsRecipient.screen_name' => $this->data['MsgsMessage']['to']
-			);
-				
-			$this->MsgsMessage->MsgsRecipient->Contain();
-			$recipient = $this->MsgsMessage->MsgsRecipient->findByScreenName($this->data['MsgsMessage']['to']);
-				
-			if (!$recipient) {
-				$this->MsgsMessage->invalidate('to', __('Sorry but we can\'t find that username', true));
-			}
+			$id = $this->data['MsgsMessage']['to_id'];
 			
-			$this->data['MsgsMessage']['to_id'] = $recipient['MsgsRecipient']['id'];
+		}
+		
+		if (!empty($this->data)) {
 			
 			if ($this->MsgsMessage->send($this->data['MsgsMessage']['to_id'], $this->data['MsgsMessage']['title'], $this->data['MsgsMessage']['body'], $this->Account->id())) {
 			
 				$this->afterSend($this->data);
 				$this->Session->setFlash(__('Your private message was sent', true));
-				$this->redirect(array('action' => 'inbox'));
+				$this->redirect($this->referer());
 
 			}
 
 		}
+		
+		$this->MsgsMessage->UacProfile->Contain();
+		$recipient = $this->MsgsMessage->UacProfile->read(null, $id);
+		$this->set('recipient', $recipient);
+		$this->data['MsgsMessage']['to_id'] = $recipient['UacProfile']['id'];
 
 	}
 
@@ -66,13 +60,13 @@ class MsgsMessagesController extends MsgsAppController {
 		
 		$this->set('body', $data['MsgsMessage']['body']);
 		
-		$this->EmailQueue->to = $this->controller->data['UacUser']['email'];
-		$this->EmailQueue->from = Configure::read('Email.username');
-		$this->EmailQueue->subject = sprintf('%s %s', Configure::read('App.name'), __('private message received', true));
-		$this->EmailQueue->template = $this->controller->action;
-		$this->EmailQueue->sendAs = 'both';
-		$this->EmailQueue->delivery = 'db';
-		$this->EmailQueue->send();
+		// $this->EmailQueue->to = $this->controller->data['UacUser']['email'];
+		// $this->EmailQueue->from = Configure::read('Email.username');
+		// $this->EmailQueue->subject = sprintf('%s %s', Configure::read('App.name'), __('private message received', true));
+		// $this->EmailQueue->template = $this->controller->action;
+		// $this->EmailQueue->sendAs = 'both';
+		// $this->EmailQueue->delivery = 'db';
+		// $this->EmailQueue->send();
 		
 		return;
 		
@@ -115,7 +109,7 @@ class MsgsMessagesController extends MsgsAppController {
 	 * Messages Sent to the Session User
 	 * @return
 	 */
-	function inbox() {
+	function index() {
 
 		$cond = array(
 			'MsgsMessage.to_id' => $this->Account->id()
@@ -123,8 +117,21 @@ class MsgsMessagesController extends MsgsAppController {
 
 		$messages = $this->paginate($cond);
 
-		$this->set('messages', $messages);
+		$this->set('messages', $messages);		
 
+	}
+	
+	public function count() {
+		
+		$conditions = array(
+			'MsgsMessage.to_id' => $this->Account->id(),
+			'MsgsMessage.read' => 0
+		);
+
+		$total = $this->MsgsMessage->find('count', compact('conditions'));
+
+		$this->set('total', array('unread' => $total));
+		
 	}
 
 
@@ -171,34 +178,34 @@ class MsgsMessagesController extends MsgsAppController {
 	 * @param int $id
 	 * @return void
 	 */
-	function reply($id) {
-
-		$msg = $this->MsgsMessage->read(null, $id);
-
-		if ($msg['MsgsMessage']['to_id'] != $this->Account->id()) {
-
-			$this->Session->setFlash(__('You don\' have permission', true));
-			$this->redirect($this->referer());
-
-		}
-		$this->set('original', $msg);
-		unset($msg);		
-
-		if (!empty($this->data)) {
-			
-			$this->MsgsMessage->create($this->data['MsgsMessage']);
-			$this->data['MsgsMessage']['from_id'] = $this->Account->id();
-			if ($this->MsgsMessage->save($this->data['MsgsMessage'])) {
-
-				$this->Session->setFlash(__('Your reply was sent', true));
-				$this->redirect(array('controller' => $this->name, 'action' => 'inbox'));
-
-			}
-
-		}
-
-
-	}
+	// function reply($id) {
+	// 
+	// 	$msg = $this->MsgsMessage->read(null, $id);
+	// 
+	// 	if ($msg['MsgsMessage']['to_id'] != $this->Account->id()) {
+	// 
+	// 		$this->Session->setFlash(__('You don\' have permission', true));
+	// 		$this->redirect($this->referer());
+	// 
+	// 	}
+	// 	$this->set('original', $msg);
+	// 	unset($msg);		
+	// 
+	// 	if (!empty($this->data)) {
+	// 		
+	// 		$this->MsgsMessage->create($this->data['MsgsMessage']);
+	// 		$this->data['MsgsMessage']['from_id'] = $this->Account->id();
+	// 		if ($this->MsgsMessage->save($this->data['MsgsMessage'])) {
+	// 
+	// 			$this->Session->setFlash(__('Your reply was sent', true));
+	// 			$this->redirect(array('controller' => $this->name, 'action' => 'inbox'));
+	// 
+	// 		}
+	// 
+	// 	}
+	// 
+	// 
+	// }
 
 }
 

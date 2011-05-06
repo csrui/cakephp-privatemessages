@@ -9,7 +9,7 @@
 	</ul>
 </div>
 
-<h2><?php __('Message') ?></h2>
+<h2><?php __('Messages') ?></h2>
 
 <div>
 	<h3><?php echo $message['MsgsMessage']['title'] ?></h3>
@@ -21,5 +21,5 @@
 <span class="clear"></span>
 
 <p class="body">
-	<?php echo $bbcode->parse(nl2br($message['MsgsMessage']['body'])) ?>
+	<?php echo Sanitize::html(nl2br($message['MsgsMessage']['body'])) ?>
 </p>

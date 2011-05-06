@@ -7,12 +7,12 @@
 	</ul>
 </div>
 
-<h2><?php __('Send a new message') ?></h2>
+<h3><?php echo sprintf('%s %s', __('Send a new private message to', true), $recipient['UacProfile']['screen_name']) ?></h3>
 
 <?php
 
 echo $this->Form->create('MsgsMessage', array('url' => array('action' => 'send')));
-echo $this->Form->input('to');
+echo $this->Form->hidden('to_id');
 echo $this->Form->input('title');
 echo $this->Form->input('body', array('class' => 'mceEditor'));
 echo $this->Form->end('Send');

@@ -2,6 +2,7 @@
 /* SVN FILE: $Id$ */
 /* msgs schema generated on: 2011-03-19 17:03:39 : 1300554939*/
 class msgsSchema extends CakeSchema {
+
 	var $name = 'msgs';
 
 	var $file = 'schema_2.php';

@@ -1,9 +1,10 @@
 <?php 
 /* SVN FILE: $Id$ */
-/* Planamatch schema generated on: 2010-06-13 15:06:22 : 1276440802*/
-class PlanamatchSchema extends CakeSchema {
-	
-	var $name = 'Planamatch';
+/* msgs schema generated on: 2011-05-06 08:05:13 : 1304671393*/
+class msgsSchema extends CakeSchema {
+	var $name = 'msgs';
+
+	var $file = 'schema_3.php';
 
 	function before($event = array()) {
 		return true;
@@ -13,16 +14,17 @@ class PlanamatchSchema extends CakeSchema {
 	}
 
 	var $messages = array(
-		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
-		'title' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 75),
-		'body' => array('type' => 'text', 'null' => false, 'default' => NULL),
+		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 20, 'key' => 'primary'),
+		'title' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 75, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
+		'body' => array('type' => 'text', 'null' => false, 'default' => NULL, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'modified' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'from_id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 20, 'key' => 'index'),
 		'to_id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 20, 'key' => 'index'),
 		'read' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1), 'fk_messages_users' => array('column' => 'from_id', 'unique' => 0), 'fk_messages_recipients' => array('column' => 'to_id', 'unique' => 0)),
-		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
+		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_unicode_ci', 'engine' => 'MyISAM')
 	);
+
 }
 ?>

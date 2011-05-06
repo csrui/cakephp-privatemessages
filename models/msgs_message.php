@@ -12,13 +12,22 @@ class MsgsMessage extends MsgsAppModel {
 	var $actsAs = array('Containable');
 	
 	var $belongsTo = array(
-		'UacProfile' => array('className' => 'Uac.UacProfile', 'foreignKey' => 'from_id'),
-		'MsgsRecipient' => array('className' => 'Msgs.MsgsRecipient', 'foreignKey' => 'to_id'),
+		'UacProfile' => array(
+			'className' => 'Uac.UacProfile', 
+			'foreignKey' => 'from_id'
+		),
+		'MsgsRecipient' => array(
+			'className' => 'Msgs.MsgsRecipient', 
+			'foreignKey' => 'to_id'
+		),
 	);
 	
 	var $validate = array(
 		'title' => array(
-        	'empty' => array('rule' => 'notEmpty', 'allowEmpty' => false)
+        	'empty' => array(
+				'rule' => 'notEmpty', 
+				'allowEmpty' => false
+			)
         ),
         'body' => array(
         	'rule' => 'notEmpty',
