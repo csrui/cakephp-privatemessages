@@ -57,51 +57,15 @@ class MsgsMessagesController extends MsgsAppController {
 	 * @return void
 	 */
 	private function afterSend($data) {
-		
+				
+		$this->MsgsMessage->UacProfile->Contain('UacUser');
+		$user = $this->MsgsMessage->UacProfile->read(array('UacProfile.screen_name', 'UacUser.email'), $this->data['MsgsMessage']['to_id']);
+			
 		$this->set('body', $data['MsgsMessage']['body']);
+		$this->set('from', $this->Account->user('UacProfile.screen_name'));
+		$this->set('to', $user['UacProfile']['screen_name']);
 		
-		// $this->EmailQueue->to = $this->controller->data['UacUser']['email'];
-		// $this->EmailQueue->from = Configure::read('Email.username');
-		// $this->EmailQueue->subject = sprintf('%s %s', Configure::read('App.name'), __('private message received', true));
-		// $this->EmailQueue->template = $this->controller->action;
-		// $this->EmailQueue->sendAs = 'both';
-		// $this->EmailQueue->delivery = 'db';
-		// $this->EmailQueue->send();
-		
-		return;
-		
-		
-		
-		# TODO REMOVE AFTER TESTING
-
-		// $this->MsgsMessage->UaUser->Contain();
-		// $destUser = $this->MsgsMessage->UaUser->findById($data['MsgsMessage']['to_id'], array('username', 'first_name', 'last_name', 'email'));
-		// 
-		// $this->Email->smtpOptions = Configure::read('Email');
-		// $this->Email->from = sprintf('%s <%s>', Configure::read('App.name'), Configure::read('App.email'));
-		// $this->Email->subject = 'You recieved a new message on ' . Configure::read('App.name');
-		// 
-		// $name = $destUser['UaUser']['username'];
-		// 
-		// if (!empty($destUser['UaUser']['first_name']) && !empty($destUser['UaUser']['last_name']))
-		// {
-		// 	$name = $destUser['UaUser']['first_name'] . ' ' . $destUser['UaUser']['last_name'];
-		// }
-		// 
-		// $this->Email->to = sprintf('"%s" <%s>', $name, $destUser['UaUser']['email']);
-		// $this->Email->template = 'new_message';
-		// $this->Email->sendAs = 'html';
-		// 
-		// $this->set('fromUsername', $this->Auth->user('username'));
-		// $this->set('toUsername', $destUser['UaUser']['username']);
-		// $this->set('body', $data['MsgsMessage']['body']);
-		// 
-		// if (!$this->Email->send())
-		// {
-		// 	$this->log('Error sending email "New Message".', LOG_ERROR);
-		// 	$this->log($this->Email->smtpError, LOG_ERROR);
-		// 	$this->Session->setFlash(sprintf(__('There was an error sending the e-mail, please contact us at %s', true), Configure::read('App.email')));
-		// }
+		$this->Notifier->send(sprintf('%s <%s>', $user['UacProfile']['screen_name'], $user['UacUser']['email']), 'You received a private message');
 
 	}
 
